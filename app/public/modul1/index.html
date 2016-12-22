@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+
+<html ng-app="app" ng-strict-di>
+
+<head>
+    <title>Services and Factories</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+          crossorigin="anonymous">
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>-->
+    <script src="./../javascripts/angular/angular_1.5.3.js"></script>
+    <script src="./mod_1.js"></script>
+    <script src="./sessionService.js"></script>
+    <script src="./sessionFactory.js"></script>
+    <script src="./sessionController.js"></script>
+
+    <script type="text/JavaScript">
+      function  myFunction1(){
+          alert("");
+          console.log('click1 ');
+          document.getElementById("div1").innerHTML = "Hello World 1";
+      }
+      function myFunction2() {
+          document.getElementById("div1").innerHTML = "Hello World 2";
+      }
+    </script>
+</head>
+
+<body  ng-controller="sessionController as controller" ng-init="controller.init()" >
+<!--<body  onload=console.log("load");>-->
+<div class="container">
+    <h1>Services and Factories</h1>
+    <p id="div1"></p>
+    <div class="form-group row">
+        <div class="col-sm-4">
+            <label>Name</label>
+        </div>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" ng-model="controller.model.name">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-4">
+            <label>Nickname</label>
+        </div>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" ng-model="controller.model.nickname">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-8 col-sm-offset-4">
+            <button  onclick="myFunction1()" > Click me!</button>
+            <button  onclick="myFunction2()">Click me</button>
+
+            <input type="button" class="btn btn-primary" value="Save with Service" ng-click="controller.setServiceSession()" />
+            <input type="button" class="btn btn-default" value="Retrieve from Service" ng-click="controller.getServiceSession()"  />
+            <input type="button" class="btn btn-default" value="Clear from Service" ng-click="controller.clearServiceSession()"/>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-8 col-sm-offset-4">
+            <input type="button" class="btn btn-primary" value="Save with Factory" ng-click="controller.setFactorySession()"/>
+            <input type="button" class="btn btn-default" value="Retrieve from Factory" ng-click="controller.getFactorySession()" />
+            <input type="button" class="btn btn-default" value="Clear from Factory" ng-click="controller.clearFactorySession()" />
+        </div>
+    </div>
+
+    <pre>{{controller.model | json}}</pre>
+</div>
+
+
+</body>
+
+</html>

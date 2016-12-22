@@ -1,0 +1,9 @@
+arrancar la aplicació:
+
+en una finestra ms--dos
+
+
+set DEBUG=app:* & npm start
+ ( executa el script start definit a package.json , en el nostre cas el script  ./bin/www.js , si no cull el valor per defecte: node server.js)
+
+ veure https://www.npmjs.com/package/debug
