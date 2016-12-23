@@ -1,28 +1,8 @@
-angular.module("app",['sessionService'])
-
-    .factory('sessionFactory',
-        ['$window',
-            function ($window){
-                return {
-                    save:function (key, value) {
-                        console.log ("sessionFactory save");
-                        $window.sessionStorage.setItem(key, value);
-                    },
-                    get:                 function(key) {
-                        return $window.sessionStorage.getItem(key);
-                    },
-                    clear:            function clear() {
-                        $window.sessionStorage.clear();
-                    }
-                };
-            }
-        ])
-
-
+angular.module("app",['sessionService','sessionFactory'])
 
     .controller('sessionController', [
-        'sessionService','sessionFactory',
-        function (sessionService,sessionFactory) {
+        '$window','sessionService','sessionFactory',
+        function ($window,sessionService,sessionFactory) {
             var obj = this;
 
             obj.init=function(){
@@ -65,13 +45,23 @@ angular.module("app",['sessionService'])
             obj.setFactorySession= function setFactorySession() {
                 obj.mySessionFactory.save('name', obj.model.name);
                 obj.mySessionFactory.save('nickname', obj.model.nickname);
-                console.log($window.sessionStorage);
-                getFactorySession();
+                obj.model = {
+                    name: obj.model.name,
+                    nickname: obj.model.nickname,
+                    status: 'Saved by Factory on ' + new Date()
+                };
+
+
             };
 
             obj.clearFactorySession=function clearFactorySession(){
                 obj.mySessionFactory.clear();
-                getFactorySession();
+                obj.model = {
+                                 name: null,
+                                 nickname: null,
+                                 status: null
+                             };
+
             }
 
 
