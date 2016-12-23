@@ -1,23 +1,42 @@
-
-
 angular.module("app",['sessionService'])
-.controller('sessionController', [
-        'sessionService',
-        function (sessionService) {
+
+    .factory('sessionFactory',
+        ['$window',
+            function ($window){
+                return {
+                    save:function (key, value) {
+                        console.log ("sessionFactory save");
+                        $window.sessionStorage.setItem(key, value);
+                    },
+                    get:                 function(key) {
+                        return $window.sessionStorage.getItem(key);
+                    },
+                    clear:            function clear() {
+                        $window.sessionStorage.clear();
+                    }
+                };
+            }
+        ])
+
+
+
+    .controller('sessionController', [
+        'sessionService','sessionFactory',
+        function (sessionService,sessionFactory) {
             var obj = this;
 
             obj.init=function(){
-                alert("");
+                //alert("");
                 console.log("init");
             };
             // usant Service
 
             obj.getServiceSession = function () {
-                    obj.model = {
-                       name: sessionService.get('name'),
-                       nickname: sessionService.get('nickname'),
-                       status: 'Retrieved by service on ' + new Date()
-                   };
+                obj.model = {
+                    name: sessionService.get('name'),
+                    nickname: sessionService.get('nickname'),
+                    status: 'Retrieved by service on ' + new Date()
+                };
             };
             obj.setServiceSession = function() {
                 console.log("setServiceSession");
@@ -31,49 +50,31 @@ angular.module("app",['sessionService'])
             };
 
             // usant Factory
-/*
 
-            var sessionFactory = function(){
-                this.save = function(key, value) {
-                    $window.sessionStorage.setItem(key, value);
-                    };
-                    this.get = function(key) {
-                        return $window.sessionStorage.getItem(key);
-                    };
-                    this.clear = function() {
-                        $window.sessionStorage.clear();
-                };
-            };
-            return sessionFactory;
+            obj.mySessionFactory = sessionFactory;
+            console.log ( obj.mySessionFactory);
 
-
-            var mySessionFactory = new sessionFactory();
-            obj.getFactorySession = getFactorySession;
-            obj.setFactorySession = setFactorySession;
-            obj.clearFactorySession = clearFactorySession;
-
-            function getFactorySession() {
+            obj.getFactorySession =function () {
                 obj.model = {
-                    name: mySessionFactory.get('name'),
-                    nickname: mySessionFactory.get('nickname'),
+                    name: obj.mySessionFactory.get('name'),
+                    nickname: obj.mySessionFactory.get('nickname'),
                     status: 'Retrieved by Factory on ' + new Date()
                 };
-            }
+            };
 
-            function setFactorySession() {
-
-                mySessionFactory.save('name', obj.model.name);
-                mySessionFactory.save('nickname', obj.model.nickname);
+            obj.setFactorySession= function setFactorySession() {
+                obj.mySessionFactory.save('name', obj.model.name);
+                obj.mySessionFactory.save('nickname', obj.model.nickname);
                 console.log($window.sessionStorage);
                 getFactorySession();
-            }
+            };
 
-            function clearFactorySession(){
-                mySessionFactory.clear();
+            obj.clearFactorySession=function clearFactorySession(){
+                obj.mySessionFactory.clear();
                 getFactorySession();
             }
 
-*/
+
 
         }
-]);
+    ]);
